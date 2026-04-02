@@ -59,7 +59,7 @@ The system has three roles. The exact permissions for each are enforced at the r
 - Full access to everything
 - Create, view, update, delete financial records
 - View all dashboard analytics
-- Manage all users — create, assign roles, activate/deactivate, delete
+- Manage all users -- create, assign roles, activate/deactivate, delete
 - View records created by any user
 
 ### MANAGER
@@ -78,6 +78,8 @@ The system has three roles. The exact permissions for each are enforced at the r
 ---
 
 ## API Reference
+
+Postman Documentation: https://documenter.getpostman.com/view/37897350/2sBXiokpXS
 
 Base URL: `/api/v1`
 

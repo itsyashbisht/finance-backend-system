@@ -1,7 +1,7 @@
+import "./env.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
-import { ApiResponse } from "./utils/apiResponse.js";
 
 const app = express();
 
@@ -28,12 +28,32 @@ app.use("/api/v1/records", financialRecordRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 
 app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
+  // Keep `next` in the signature so Express treats this as an error middleware.
+  void next;
 
-  return res
-    .status(statusCode)
-    .json(new ApiResponse(statusCode, null, message));
+  const statusCode = Number(err?.statusCode) || 500;
+  const isProd = process.env.NODE_ENV === "production";
+
+  // Avoid leaking internal error details in production.
+  const message =
+    isProd && statusCode === 500
+      ? "Internal Server Error"
+      : err?.message || "Internal Server Error";
+
+  // Always log the full error server-side for debugging/observability.
+  console.error(err);
+
+  const payload = {
+    statusCode,
+    data: null,
+    message,
+    success: false,
+    errors: Array.isArray(err?.errors) ? err.errors : [],
+  };
+
+  if (!isProd && err?.stack) payload.stack = err.stack;
+
+  return res.status(statusCode).json(payload);
 });
 
 export { app };

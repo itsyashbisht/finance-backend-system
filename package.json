@@ -2,6 +2,11 @@
   "name": "finance-backend-system",
   "version": "1.0.0",
   "description": "finance backend system",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+    "start": "node src/index.js",
+    "build": "echo 'No build needed for Node.js'"
+  },
   "keywords": [
     "backend",
     "finance",
@@ -11,9 +16,6 @@
   "author": "Yash Bisht",
   "type": "module",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
